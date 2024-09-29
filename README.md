@@ -68,6 +68,8 @@ prompt('Tell me a joke')
 You can create a chain that passes the result of the previous prompt to the next one. For that, you need to create a sequence of prompt links and pipe them in a chain. Like for a single prompt, a prompt link also contains the thread of all the previous invocations to the LLM and can be customized by passing options.
 
 ```js
+import { getPromptLink, getMessage, chain } from '@makinteract/openai-chains';
+
 const promptlink = getPromptLink({
   model: 'gpt-4o',
 });
