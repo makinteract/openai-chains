@@ -1,9 +1,15 @@
 {
   "name": "@makinteract/openai-chains",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "main": "index.js",
   "type": "module",
   "author": "MAKinteract",
+  "keywords": [
+    "openai",
+    "gpt-3",
+    "prompt",
+    "chains"
+  ],
   "repository": {
     "type": "git",
     "url": "git@github.com:makinteract/openai-chains.git"
