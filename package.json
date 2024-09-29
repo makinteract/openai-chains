@@ -1,0 +1,23 @@
+{
+  "name": "@makinteract/openai-chains",
+  "version": "0.1.0",
+  "main": "index.js",
+  "type": "module",
+  "author": "MAKinteract",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:makinteract/openai-chains.git"
+  },
+  "license": "ISC",
+  "description": "Providing basic prompt and chains with OpenAI's API",
+  "scripts": {
+    "link": "npm link",
+    "list-links": "npm ls -g --depth=0 --link=true",
+    "remove-link": "npm rm --global @makinteract/openai-chains"
+  },
+  "dependencies": {
+    "axios": "^1.7.7",
+    "dotenv": "^16.4.5"
+  },
+  "devDependencies": {}
+}
