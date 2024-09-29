@@ -2,7 +2,15 @@
 
 A simple library to create OpenAI API calls for both single prompts and chains. The user can generate a prompt that keeps track of the previous invocation (e.g., history or _threads_). The library uses a functional programming style.
 
-## Single Prompts
+## Usage
+
+Ensure you have a valid OpenAI API key. Store it in a `.env` file in the root folder of your project. The `.env` file should look like something like this:
+
+```
+OPENAI_API_KEY=sk-proj-nKrwmdu5fSZm....
+```
+
+### Single Prompts
 
 Create a prompt by passing a model. Other options such as _temperature_ or _frequency_penalty_ can be found [here](https://platform.openai.com/docs/api-reference/chat/create).
 
@@ -63,7 +71,7 @@ prompt('Tell me a joke')
   .catch((err) => console.error(err));
 ```
 
-## Prompt Chains
+### Prompt Chains
 
 You can create a chain that passes the result of the previous prompt to the next one. For that, you need to create a sequence of prompt links and pipe them in a chain. Like for a single prompt, a prompt link also contains the thread of all the previous invocations to the LLM and can be customized by passing options.
 
