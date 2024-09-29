@@ -1,4 +1,4 @@
-# OpenAI in Chains
+# OpenAI Chains
 
 A simple library to create OpenAI API calls for both single prompts and chains. The user can generate a prompt that keeps track of the previous invocation (e.g., history or _threads_). The library uses a functional programming style.
 
