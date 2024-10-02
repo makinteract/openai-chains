@@ -1,6 +1,6 @@
 # OpenAI Chains
 
-A simple library to create OpenAI API calls for both single prompts and chains. The user can generate a prompt that keeps track of the previous invocation (e.g., history or _threads_). The library uses a functional programming style.
+A simple library to create OpenAI API calls for both single prompts and chains. The user can generate a prompt that keeps track of the previous invocation (e.g., [history](#history) or _threads_). The library uses a functional programming style.
 
 ## Usage
 
@@ -71,6 +71,40 @@ prompt('Tell me a joke')
   .catch((err) => console.error(err));
 ```
 
+#### Examples
+
+If you want to pass an initial context, you can simply pass it when you create the prompt.
+
+```js
+const context = [{ role: 'system', content: 'You are a funny guy' }];
+
+const prompt = getPrompt({ model: 'gpt-4o-mini' }, context);
+
+await prompt('Tell me a joke'); // ....
+```
+
+Another common usage is using [few shot prompts](https://platform.openai.com/docs/guides/prompt-engineering/tactic-provide-examples) using examples.
+
+```js
+const examples = [
+  {
+    role: 'system',
+    content: 'Answer in a consistent style with the examples.',
+  },
+  { role: 'user', content: 'What is happyness?' },
+  { role: 'assistant', content: "Aren't you happy?" },
+  { role: 'user', content: 'What is ambition?' },
+  { role: 'assistant', content: "Aren't you ambitious?" },
+];
+
+const prompt = getPrompt({ model: 'gpt-4o-mini' }, examples);
+
+prompt('What is love?') //
+  .then(getMessage)
+  .then(console.log);
+// Response: { role: 'assistant', content: "Aren't you in love?", refusal: null }
+```
+
 ### Prompt Chains
 
 You can create a chain that passes the result of the previous prompt to the next one. For that, you need to create a sequence of prompt links and pipe them in a chain. Like for a single prompt, a prompt link also contains the thread of all the previous invocations to the LLM and can be customized by passing options.
@@ -90,6 +124,59 @@ chain(
   .then(getMessage)
   .then((res) => console.log(res))
   .catch((err) => console.error(err));
+```
+
+As for the single prompt example, you can pass a context when you create the prompt:
+
+```js
+const promptlink = getPromptLink(
+  {
+    model: 'gpt-4o',
+  },
+  context
+);
+```
+
+### History
+
+Both prompts keep track of the past prompt invocations and results—something similar to the concept of [threads](https://platform.openai.com/docs/assistants/deep-dive/managing-threads-and-messages).
+
+This means that you do not need to manually keep track of your prompts or their responses. Here is an example.
+
+```js
+const prompt = getPrompt(
+  {
+    model: 'gpt-4o-mini',
+  }[{ role: 'user', content: 'Be very succinct' }]
+);
+
+// Saying the name here
+await prompt('My name is Jon Snow');
+await prompt('I love dragons');
+await prompt('I am a Stark');
+// Asking for my name - it remembers it!
+await prompt('What is my name?').then(getMessage).then(console.log);
+// Response: { role: 'assistant', content: 'Your name is Jon Snow!', refusal: null }
+```
+
+This also works using chains:
+
+```js
+const promptlink = getPromptLink({ model: 'gpt-4o' }, [
+  { role: 'system', content: 'Answer in a sentence.' },
+]);
+
+await chain(
+  promptlink('My name is Jon Snow'),
+  promptlink('I love dragons'),
+  promptlink('I am a Stark'),
+  promptlink('Who am I?')
+)
+  .then(getMessage)
+  .then((res) => console.log(res))
+  .catch((err) => console.error(err));
+
+// Reponse { role: 'assistant', content: 'You are Jon Snow, a member of House Stark.', refusal: null }
 ```
 
 ## Issues
