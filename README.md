@@ -2,17 +2,46 @@
 
 [![npm version](https://badge.fury.io/js/@makinteract%2Fopenai-chains.svg)](https://badge.fury.io/js/@makinteract%2Fopenai-chains)
 
-A simple library to create OpenAI API calls for both single prompts and chains. The user can generate a prompt that keeps track of the previous invocation (e.g., [history](#history) or _threads_). The library uses a functional programming style.
+A simple library to create OpenAI API calls for both single prompts and chains. The user can generate a prompt that keeps track of the previous invocation (e.g., [history](#history) or _threads_). The library is minimal (no dependencies) and uses a functional programming style.
 
 Tested with **Node**, **Bun**, **Deno** and **Vite**.
 
-## Usage
+## Quick start
 
-Ensure you have a valid OpenAI API key. You can then directly pass the apiKey as an option to the [getPrompt](#single-prompts) and [getPromptLink](#prompt-chains) functions, or, if you are using Node, Bun, or Deno, you can store the apiKey in a `.env` file.
+Single prompt:
+
+```js
+import { getPrompt, getMessage } from '@makinteract/openai-chains';
+
+const apiKey = 'sk-proj-1WIwlE...'; // or use a .env file
+
+const prompt = await getPrompt({ model: 'gpt-4o-mini', apiKey });
+const response = await prompt('Tell me a joke').then(getMessage);
+console.log(response);
+```
+
+Chain:
+
+```js
+import { getPromptLink, chain } from '@makinteract/openai-chains';
+
+const promptlink = getPromptLink({ model: 'gpt-4o-mini', apiKey });
+
+const response = await chain(
+  promptlink('My name is Jon'),
+  promptlink('Make it all capital letters')
+).then(getMessage);
+
+console.log(response);
+```
+
+## Setting up the apiKey
+
+Ensure you have a valid OpenAI API key. You can then directly pass the _apiKey_ as an option to the [getPrompt](#single-prompts) and [getPromptLink](#prompt-chains) functions, or, if you are using Node, Bun, or Deno, you can store the _apiKey_ in a `.env` file.
 
 ### Manually passing the apiKey
 
-In environments like the browser, you might have to pass the apiKey manually when you create the prompt, like this.
+In environments like the browser, you might have to pass the _apiKey_ manually when you create the prompt, like this.
 
 ```js
 import { getPrompt, getPromptLink } from '@makinteract/openai-chains';
@@ -75,7 +104,7 @@ try {
 }
 ```
 
-The result is an object with the following structure, resembling OpenAI's standard [response](https://platform.openai.com/docs/api-reference/chat/create).
+The result is a Response object with the following structure, resembling OpenAI's standard [response](https://platform.openai.com/docs/api-reference/chat/create).
 
 ```json
 {
@@ -96,7 +125,7 @@ The result is an object with the following structure, resembling OpenAI's standa
 }
 ```
 
-Tip: To simplify the extraction of a message, you can use the `getMessage` function in this way.
+Tip: to simplify the extraction of a message, you can use the `getMessage` function in this way.
 
 ```js
 prompt('Tell me a joke')
@@ -122,7 +151,7 @@ const prompt = getPrompt({ model: 'gpt-4o-mini' }, context);
 await prompt('Tell me a joke'); // ...
 ```
 
-Another common usage is using [few-shot prompts](https://platform.openai.com/docs/guides/prompt-engineering/tactic-provide-examples) with examples.
+Another common usage is using [few-shot prompts](https://platform.openai.com/docs/guides/prompt-engineering/tactic-provide-examples), which requires passing examples as context.
 
 ```js
 const examples = [
@@ -146,7 +175,7 @@ prompt('What is love?') //
 
 ## Prompt Chains
 
-You can create a chain that passes the result of the previous prompt to the next one. For that, you need to create a sequence of prompt links and pipe them in a chain. Like for a single prompt, a prompt link also contains the thread of all the previous invocations to the LLM and can be customized by passing options.
+You can create a _chain_ that passes the result of the previous prompt to the next one. For that, you need to create a sequence of prompt links and pipe them in a chain. Like for a single prompt, a prompt link also contains the thread of all the previous invocations to the LLM and can be customized by passing options.
 
 ```js
 import { getPromptLink, getMessage, chain } from '@makinteract/openai-chains';
@@ -178,9 +207,9 @@ const promptlink = getPromptLink(
 
 ## History
 
-Both prompts keep track of the past prompt invocations and results—something similar to the concept of [threads](https://platform.openai.com/docs/assistants/deep-dive/managing-threads-and-messages).
+Both types of prompts keep track of the user's input messagesand the responses—something similar to the concept of [threads](https://platform.openai.com/docs/assistants/deep-dive/managing-threads-and-messages).
 
-This means that you do not need to manually keep track of your prompts or their responses. Here is an example.
+This means that you do not need to manually keep track of your prompts and their responses, as they are automatically stored for you. Here is an example.
 
 ```js
 const prompt = getPrompt(
@@ -218,14 +247,10 @@ chain(
 // Reponse { role: 'assistant', content: 'You are Jon Snow, a member of House Stark.', refusal: null }
 ```
 
+To reset the history you simply get a new prompt with `getPrompt` or `getPromptLink`.
+
 ## Issues
 
 For any problem or question with this library, please raise an issue on the [Issue page](https://github.com/makinteract/openai-chains/issues).
 
-## Changelog
-
-See [here](./CHANGELOG.md) for details.
-
-## License
-
-ISC
+Enjoy!
