@@ -97,29 +97,3 @@ function _httpRequest(messages, options) {
     }),
   }).then((response) => response.json());
 }
-
-// Usage
-// 1. Example with single prompt
-
-// const prompt = getPrompt({
-//   model: 'gpt-4o-mini',
-// });
-
-// prompt('Tell me a joke')
-//   .then(getMessage)
-//   .then((res) => console.log(res))
-//   .catch((err) => console.error(err));
-
-// // 2. Example with multiple prompts
-// const promptlink = getPromptLink({
-//   model: 'gpt-4o',
-// });
-
-// await chain(
-//   promptlink('My name is Alice'),
-//   promptlink('Make all uppercase of my name'),
-//   promptlink('Remove any other information except my name')
-// )
-//   .then(getMessage)
-//   .then((res) => console.log(res))
-//   .catch((err) => console.error(err));

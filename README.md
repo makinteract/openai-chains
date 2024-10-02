@@ -188,6 +188,10 @@ await chain(
 
 For any problem or question with this library, please raise an issue on the [Issue page](https://github.com/makinteract/openai-chains/issues).
 
+## Changelog
+
+See [here](./CHANGELOG.md) for details.
+
 ## License
 
 ISC
