@@ -76,11 +76,16 @@ prompt('Tell me a joke')
 If you want to pass an initial context, you can simply pass it when you create the prompt.
 
 ```js
-const context = [{ role: 'system', content: 'You are a funny guy' }];
+const context = [
+  {
+    role: 'system',
+    content: 'You are a funny guy',
+  },
+];
 
 const prompt = getPrompt({ model: 'gpt-4o-mini' }, context);
 
-await prompt('Tell me a joke'); // ....
+await prompt('Tell me a joke'); // ...
 ```
 
 Another common usage is using [few shot prompts](https://platform.openai.com/docs/guides/prompt-engineering/tactic-provide-examples) using examples.
@@ -147,7 +152,7 @@ This means that you do not need to manually keep track of your prompts or their 
 const prompt = getPrompt(
   {
     model: 'gpt-4o-mini',
-  }[{ role: 'user', content: 'Be very succinct' }]
+  }[{ role: 'system', content: 'Be very succinct' }]
 );
 
 // Saying the name here

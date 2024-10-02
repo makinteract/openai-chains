@@ -1,6 +1,6 @@
 {
   "name": "@makinteract/openai-chains",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "main": "index.js",
   "type": "module",
   "author": "MAKinteract",
@@ -23,6 +23,5 @@
   },
   "dependencies": {
     "dotenv": "^16.4.5"
-  },
-  "devDependencies": {}
+  }
 }
