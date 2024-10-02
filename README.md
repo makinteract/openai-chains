@@ -17,12 +17,12 @@ In environments like the browser, you might have to pass the apiKey manually whe
 ```js
 import { getPrompt, getPromptLink } from '@makinteract/openai-chains';
 
-const prompt = getPrompt({
+getPrompt({
   model: 'gpt-4o-mini',
   apiKey: 'YOUR_KEY',
 });
 
-const promptLink = getPromptLink({
+getPromptLink({
   model: 'gpt-4o-mini',
   apiKey: 'YOUR_KEY',
 });
@@ -205,7 +205,7 @@ const promptlink = getPromptLink({ model: 'gpt-4o' }, [
   { role: 'system', content: 'Answer in a sentence.' },
 ]);
 
-await chain(
+chain(
   promptlink('My name is Jon Snow'),
   promptlink('I love dragons'),
   promptlink('I am a Stark'),
