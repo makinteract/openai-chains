@@ -1,7 +1,5 @@
 # OpenAI Chains
 
-[![npm version](https://badge.fury.io/js/@makinteract%2Fopenai-chains.svg)](https://badge.fury.io/js/@makinteract%2Fopenai-chains)
-
 A simple library to create OpenAI API calls for both single prompts and chains. The user can generate a prompt that keeps track of the previous invocation (e.g., [history](#history) or _threads_). The library is minimal (no dependencies) and uses a functional programming style.
 
 Tested with **Node**, **Bun**, **Deno** and **Vite**.
