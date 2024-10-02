@@ -26,16 +26,13 @@ export interface Response {
 }
 
 type PromptFunction = (prompt: readonly string) => Promise<Response>;
-
-type PromptLinkFunction = (
-  prompt: readonly string
-) => (previousContext: readonly Message) => Promise<Response>;
+type PromptLinkFunction = (previousContext: Message) => Promise<Response>;
 
 /**
  * A chain of prompt functions that are executed in sequence (pipe)
  * @param functions the prompt functions to chain
  */
-export function chain(...functions: PromptFunction[]): Promise<Response>;
+export function chain(...functions: PromptLinkFunction[]): Promise<Response>;
 
 /**
  * Get a prompt function that uses the provided model.
@@ -52,12 +49,12 @@ export function getPrompt(
  * Get a chainable prompt function that uses the provided model and the previous context.
  * @param promptOptions The options to use for the prompt.
  * @param thread The thread of messages to use as context.
- * @returns A prompt function that uses the provided model and the previous context.
+ * @returns A chainable prompt function that uses the provided model and the previous context.
  */
 export function getPromptLink(
   promptOptions: readonly Options,
   thread?: Message[]
-): PromptLinkFunction;
+): (prompt: readonly string) => PromptLinkFunction;
 
 /**
  * Utility to transform a response into a message.
