@@ -1,5 +1,3 @@
-import 'dotenv/config';
-
 export function chain(...fns) {
   function pipe(...fns) {
     return (x) => fns.reduce((p, f) => p.then(f), Promise.resolve(x));
@@ -59,8 +57,7 @@ export function getPromptLink(
         thread.push(userMessage);
         thread.push(response.message);
         return response;
-      })
-      .catch(() => {});
+      });
   };
 }
 
@@ -69,7 +66,11 @@ export function getMessage(response) {
 }
 
 function _formatResponse(result) {
-  const { object, created, model, usage, system_fingerprint } = result;
+  const { error, object, created, model, usage, system_fingerprint } = result;
+  if (error) {
+    throw error.message;
+  }
+
   const choice = result.choices[0];
   if (choice.finish_reason === 'stop') {
     return {
@@ -85,14 +86,17 @@ function _formatResponse(result) {
 }
 
 function _httpRequest(messages, options) {
+  let { apiKey, ...otherOptions } = options;
+  apiKey ||= process.env.OPENAI_API_KEY; // last resort for apiKey
+
   return fetch('https://api.openai.com/v1/chat/completions', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
+      Authorization: `Bearer ${apiKey}`,
     },
     body: JSON.stringify({
-      ...options,
+      ...otherOptions,
       messages,
     }),
   }).then((response) => response.json());

@@ -20,8 +20,5 @@
     "link": "npm link",
     "list-links": "npm ls -g --depth=0 --link=true",
     "remove-link": "npm rm --global @makinteract/openai-chains"
-  },
-  "dependencies": {
-    "dotenv": "^16.4.5"
   }
 }

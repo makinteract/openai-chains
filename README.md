@@ -4,13 +4,43 @@ A simple library to create OpenAI API calls for both single prompts and chains. 
 
 ## Usage
 
-Ensure you have a valid OpenAI API key. Store it in a `.env` file in the root folder of your project. The `.env` file should look like something like this:
+Ensure you have a valid OpenAI API key. You can then directly pass the apiKey as an option to the [getPrompt](#single-prompts) and [getPromptLink](#prompt-chains) functions, or, if you are using Node, Bun, or Deno, you can store the apiKey in a `.env` file.
+
+### Manually passing the apiKey
+
+In environments like the browser, you might have to pass the apiKey manually when you create the prompt, like this.
+
+```js
+import { getPrompt, getPromptLink } from '@makinteract/openai-chains';
+
+const prompt = getPrompt({
+  model: 'gpt-4o-mini',
+  apiKey: 'YOUR_KEY',
+});
+
+const promptLink = getPromptLink({
+  model: 'gpt-4o-mini',
+  apiKey: 'YOUR_KEY',
+});
+```
+
+### Node/Bun/Deno environemnts
+
+Store it in a `.env` file in the root folder of your project. The `.env` file should look something like this:
 
 ```
 OPENAI_API_KEY=sk-proj-nKrwmdu5fSZm....
 ```
 
-### Single Prompts
+If you are using Bun or Deno, you are all set.
+
+If you are using Node, instead, you can import the `OPENAI_API_KEY` using dotenv (`npm i dotenv`) and then add this import.
+
+```js
+import 'dotenv/config';
+```
+
+## Single Prompts
 
 Create a prompt by passing a model. Other options such as _temperature_ or _frequency_penalty_ can be found [here](https://platform.openai.com/docs/api-reference/chat/create).
 
@@ -30,7 +60,7 @@ prompt('Tell me a joke')
   .catch((err) => console.error(err));
 ```
 
-Or alternatively using `async/await` this way:
+Or alternatively, using `async/await` this way:
 
 ```js
 try {
@@ -62,7 +92,7 @@ The result is an object with the following structure, resembling OpenAI's standa
 }
 ```
 
-> Tip: To simplify the extraction of a message, you can use the `getMessage` function in this way.
+Tip: To simplify the extraction of a message, you can use the `getMessage` function in this way.
 
 ```js
 prompt('Tell me a joke')
@@ -71,7 +101,7 @@ prompt('Tell me a joke')
   .catch((err) => console.error(err));
 ```
 
-#### Examples
+### Examples
 
 If you want to pass an initial context, you can simply pass it when you create the prompt.
 
@@ -88,7 +118,7 @@ const prompt = getPrompt({ model: 'gpt-4o-mini' }, context);
 await prompt('Tell me a joke'); // ...
 ```
 
-Another common usage is using [few shot prompts](https://platform.openai.com/docs/guides/prompt-engineering/tactic-provide-examples) using examples.
+Another common usage is using [few-shot prompts](https://platform.openai.com/docs/guides/prompt-engineering/tactic-provide-examples) with examples.
 
 ```js
 const examples = [
@@ -110,7 +140,7 @@ prompt('What is love?') //
 // Response: { role: 'assistant', content: "Aren't you in love?", refusal: null }
 ```
 
-### Prompt Chains
+## Prompt Chains
 
 You can create a chain that passes the result of the previous prompt to the next one. For that, you need to create a sequence of prompt links and pipe them in a chain. Like for a single prompt, a prompt link also contains the thread of all the previous invocations to the LLM and can be customized by passing options.
 
@@ -142,7 +172,7 @@ const promptlink = getPromptLink(
 );
 ```
 
-### History
+## History
 
 Both prompts keep track of the past prompt invocations and results—something similar to the concept of [threads](https://platform.openai.com/docs/assistants/deep-dive/managing-threads-and-messages).
 

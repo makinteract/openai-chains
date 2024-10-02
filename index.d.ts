@@ -5,6 +5,7 @@ export interface Message {
 
 export interface Options {
   model: string;
+  apiKey?: string;
   frequency_penalty?: number;
   max_tokens?: number;
 }
