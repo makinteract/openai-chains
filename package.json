@@ -1,6 +1,6 @@
 {
   "name": "@makinteract/openai-chains",
-  "version": "0.1.9",
+  "version": "0.1.10",
   "main": "index.js",
   "type": "module",
   "author": "MAKinteract",
