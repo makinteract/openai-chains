@@ -87,7 +87,12 @@ function _formatResponse(result) {
 
 function _httpRequest(messages, options) {
   let { apiKey, ...otherOptions } = options;
-  apiKey ||= process.env.OPENAI_API_KEY; // last resort for apiKey
+
+  try {
+    apiKey ||= process.env.OPENAI_API_KEY; // last resort for apiKey
+  } catch (e) {
+    // console.error('Error: ', e);
+  }
 
   return fetch('https://api.openai.com/v1/chat/completions', {
     method: 'POST',
