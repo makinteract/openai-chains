@@ -14,7 +14,7 @@
     "type": "git",
     "url": "git@github.com:makinteract/openai-chains.git"
   },
-  "license": "ISC",
+  "license": "MIT",
   "description": "Providing basic prompt and chains with OpenAI's API",
   "scripts": {
     "link": "npm link",
