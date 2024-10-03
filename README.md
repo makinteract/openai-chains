@@ -6,6 +6,12 @@ Tested with **Node**, **Bun**, **Deno** and **Vite**.
 
 ## Quick start
 
+Installation:
+
+```sh
+npm i @makinteract/openai-chains
+```
+
 Single prompt:
 
 ```js
