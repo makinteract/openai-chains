@@ -1,5 +1,11 @@
 # OpenAI Chains
 
+![deprecated](https://img.shields.io/badge/status-deprecated-red)
+
+> The package is currently deprecated. You can try [baby-prompts](https://www.npmjs.com/package/baby-prompts) instead, which has very similar functionalities and is updated using the OpenAI reasoning API.
+
+---
+
 A simple library to create OpenAI API calls for both single prompts and chains. The user can generate a prompt that keeps track of the previous invocation (e.g., [history](#history) or _threads_). The library is minimal (no dependencies) and uses a functional programming style.
 
 Tested with **Node**, **Bun**, **Deno** and **Vite**.
